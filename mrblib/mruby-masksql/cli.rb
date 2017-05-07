@@ -31,6 +31,7 @@ module MrubyMasksql
     def run
       case @command
       when 'mask'                       then mask
+      when 'init'                       then init
       when 'version', '--version', '-v' then version
       when 'help'                       then help(@text)
       else                                   help
@@ -50,6 +51,10 @@ module MrubyMasksql
       converter = Converter.new(converter_options)
       converter.mask
       puts "\e[32mDone.\e[0m"
+    end
+
+    def init
+      puts Initializer.copy_template
     end
 
     def version

@@ -3,6 +3,7 @@ module MrubyMasksql
     USAGE_COMMON = <<-EOS
 Usage:
   mruby-masksql help [COMMAND]                                            # Describe available commands or one specific command
+  mruby-masksql init                                                      # Generate a config file
   mruby-masksql mask -i, --in=INPUT FILE PATH -o, --out=OUTPUT FILE PATH  # Mask sensitive values in a SQL file
   mruby-masksql version, -v, --version                                    # Print the version
     EOS
@@ -22,6 +23,13 @@ Options:
 Mask sensitive values in a SQL file
     EOS
 
+    USAGE_INIT = <<-EOS
+Usage:
+  mruby-masksql init
+
+Generate a config file
+    EOS
+
     def initialize(command = nil)
       @command = command
     end
@@ -29,6 +37,7 @@ Mask sensitive values in a SQL file
     def run
       puts case @command
            when 'mask' then USAGE_MASK
+           when 'init' then USAGE_INIT
            else             USAGE_COMMON
            end
     end
