@@ -11,5 +11,6 @@ MRuby::Gem::Specification.new('mruby-masksql') do |spec|
   spec.add_dependency 'mruby-io'
   spec.add_dependency 'mruby-mtest'
   spec.add_dependency 'mruby-onig-regexp'
+  spec.add_dependency 'mruby-optparse'
   spec.add_dependency 'mruby-yaml'
 end

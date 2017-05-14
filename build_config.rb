@@ -5,6 +5,7 @@ def gem_config(conf)
   conf.gem File.expand_path(File.dirname(__FILE__))
 
   conf.gem :mgem => 'mruby-onig-regexp'
+  conf.gem :mgem => 'mruby-optparse'
 end
 
 MRuby::Build.new do |conf|

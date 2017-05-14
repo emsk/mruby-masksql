@@ -1,6 +1,6 @@
 module MrubyMasksql
   class CLI
-    OPTION = /^(--|-)(.+)=(.*)$/
+    OPTION = /\A(--|-)/
 
     def self.start(argv)
       new(argv).run
@@ -18,23 +18,29 @@ module MrubyMasksql
     end
 
     def parse_args(args)
+      opts = OptionParser.new
+      opts.on('-i', '--in VALUE') { |v| @options[:in] = v }
+      opts.on('-o', '--out VALUE') { |v| @options[:out] = v }
+      opts.on('-c', '--config VALUE') { |v| @options[:config] = v }
+      opts.on('--[no-]insert') { |v| @options[:insert] = v }
+      opts.on('--[no-]replace') { |v| @options[:replace] = v }
+      opts.on('--[no-]copy') { |v| @options[:copy] = v }
+      opts.on('-v', '--version') { @command = 'version' }
+      opts.on('-h', '--help') { @command = 'help' }
+      opts.parse!(args)
+
       args.each do |arg|
-        option = OPTION.match(arg)
-        if option
-          @options[option[2].gsub('-', '_').to_sym] = option[3]
-        else
-          @text = arg
-        end
+        @text = arg unless OPTION.match(arg)
       end
     end
 
     def run
       case @command
-      when 'mask'                       then mask
-      when 'init'                       then init
-      when 'version', '--version', '-v' then version
-      when 'help'                       then help(@text)
-      else                                   help
+      when 'mask'    then mask
+      when 'init'    then init
+      when 'version' then version
+      when 'help'    then help(@text)
+      else                help
       end
     end
 
@@ -70,6 +76,21 @@ module MrubyMasksql
     private
 
     def validate_options
+      if @options[:in].nil? && @options[:out].nil?
+        $stderr.puts "No value provided for required options '--in', '--out'"
+        return false
+      end
+
+      if @options[:in].nil?
+        $stderr.puts "No value provided for required options '--in'"
+        return false
+      end
+
+      if @options[:out].nil?
+        $stderr.puts "No value provided for required options '--out'"
+        return false
+      end
+
       in_file = File.expand_path(@options[:in])
       out_file = File.expand_path(@options[:out])
 
