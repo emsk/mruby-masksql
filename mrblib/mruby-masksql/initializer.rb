@@ -18,6 +18,14 @@ module MrubyMasksql
 #     indexes:
 #       0: code-[mask]
 #       1: Cat name [mask]
+#   - table: dogs
+#     columns: 4
+#     indexes:
+#       0: code-[mask]
+#       1: Dog name [mask]
+#     group_indexes:
+#       - 2
+#       - 3
     EOS
 
     def self.copy_template
