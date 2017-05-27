@@ -57,7 +57,7 @@ module MrubyMasksql
     end
 
     def init_matched_copy(target)
-      @matched_copy[:indexes] = target['indexes']
+      @matched_copy[:dummy_values] = target['dummy_values']
       @matched_copy[:group_indexes] = target['group_indexes'] || []
       @matched_copy[:record_index] = 1
       @counters = []
@@ -73,8 +73,8 @@ module MrubyMasksql
       record_values = line.split("\t")
       count = get_current_count(record_values, @matched_copy[:record_index], @matched_copy[:group_indexes])
 
-      @matched_copy[:indexes].each do |mask_index, mask_value|
-        record_values[mask_index] = mask_value.sub(/^'/, '')
+      @matched_copy[:dummy_values].each do |dummy_index, dummy_value|
+        record_values[dummy_index] = dummy_value.sub(/^'/, '')
           .sub(/'$/, '')
           .gsub(@mark, count.to_s)
       end
@@ -169,16 +169,16 @@ module MrubyMasksql
 
     def mask_values(record_values, target)
       columns = target['columns']
-      indexes = target['indexes']
+      dummy_values = target['dummy_values']
       group_indexes = target['group_indexes'] || []
 
       record_values.map!.with_index(1) do |values, record_index|
         count = get_current_count(values, record_index, group_indexes)
 
-        indexes.each_key do |mask_index|
-          original_value = values[mask_index]
-          masked_value = indexes[mask_index].gsub(@mark, count.to_s)
-          values[mask_index] = mask_value(masked_value, original_value, mask_index, columns)
+        dummy_values.each_key do |dummy_index|
+          original_value = values[dummy_index]
+          masked_value = dummy_values[dummy_index].gsub(@mark, count.to_s)
+          values[dummy_index] = mask_value(masked_value, original_value, dummy_index, columns)
         end
 
         values
