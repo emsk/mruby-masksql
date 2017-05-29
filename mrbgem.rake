@@ -1,6 +1,9 @@
+require_relative 'mrblib/mruby-masksql/version'
+
 MRuby::Gem::Specification.new('mruby-masksql') do |spec|
   spec.license = 'MIT'
   spec.author  = 'emsk'
+  spec.version = MrubyMasksql::VERSION
   spec.summary = 'An mruby implementation of the MaskSQL'
   spec.bins    = ['mruby-masksql']
 
