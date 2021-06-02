@@ -1,0 +1,13 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run mtest
+      run: docker-compose run mtest
+    - name: Run bintest
+      run: docker-compose run bintest
