@@ -1,5 +1,6 @@
 # mruby-masksql
 
+[![Build Status](https://github.com/emsk/mruby-masksql/actions/workflows/build.yml/badge.svg)](https://github.com/emsk/mruby-masksql/actions/workflows/build.yml)
 [![Build Status](https://travis-ci.org/emsk/mruby-masksql.svg?branch=main)](https://travis-ci.org/emsk/mruby-masksql)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
